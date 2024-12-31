@@ -21,7 +21,8 @@ jobs:
         shell: bash
 
       - name: Add SSH known hosts
-        run: ssh-keyscan -H ec2-<52.90.233.81>.compute.amazonaws.com >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ec2-52-90-233-81.compute.amazonaws.com >> ~/.ssh/known_hosts
+
 
       - name: Deploy to AWS
         run: ssh -i ~/.ssh/id_rsa ubuntu@ec2-<52.90.233.81>.compute.amazonaws.com 
