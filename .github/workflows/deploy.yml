@@ -1,4 +1,4 @@
-name: Deploy to AWS EC2
+name: Deploy to AWS
 
 on:
   push:
@@ -10,20 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
-
-      - name: Deploy to EC2
+      - name: Set up SSH key
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@<EC2_PUBLIC_IP> << 'EOF'
-            cd /path/to/your/app
-            git pull origin main
-            npm install
-            npm run build
-            pm2 restart app  # if you're using pm2 to manage your app
-          EOF
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        shell: bash
+
+      - name: Add SSH known hosts
+        run: ssh-keyscan -H ec2-<your-aws-ip>.compute.amazonaws.com >> ~/.ssh/known_hosts
+
+      - name: Deploy to AWS
+        run: ssh -i ~/.ssh/id_rsa ubuntu@ec2-<52.90.233.81>.compute.amazonaws.com 'your-deployment-command'
