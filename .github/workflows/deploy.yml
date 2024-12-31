@@ -1,13 +1,13 @@
-name: Deploy Website to EC2
+name: Deploy HTML Website to EC2
 
 on:
   push:
     branches:
-      - main  # Deploy on push to the main branch
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use Ubuntu runner for the workflow
 
     steps:
       # Step 1: Checkout the code from GitHub repository
@@ -35,7 +35,7 @@ jobs:
           scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./path-to-your-website/* ec2-user@${{ secrets.EC2_PUBLIC_IP }}:/var/www/html/
         shell: bash
 
-      # Step 5: Restart web server (optional)
+      # Step 5: Restart web server (optional, depending on the web server used)
       - name: Restart web server
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_PUBLIC_IP }} "sudo systemctl restart apache2"
