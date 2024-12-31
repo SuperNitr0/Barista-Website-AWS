@@ -1,5 +1,5 @@
 {
-  "name": "your-app-name",
+  "name": "Barista-Website",
   "version": "1.0.0",
   "scripts": {
     "start": "node server.js"
