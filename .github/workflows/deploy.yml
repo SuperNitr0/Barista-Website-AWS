@@ -1,4 +1,4 @@
-name: Deploy to AWS EC2
+name: Deploy to EC2
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from GitHub
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -19,20 +18,19 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          echo "Host *" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
         shell: bash
 
-      - name: Add EC2 to known hosts
+      - name: Add SSH known hosts
         run: |
           ssh-keyscan -H 52.90.233.81 >> ~/.ssh/known_hosts
         shell: bash
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@52.90.233.81 << 'EOF'
-            cd /path/to/your/project
-            git pull origin main
-            npm install
-            npm run build
-            # Add other deployment commands here
+          ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@52.90.233.81 << 'EOF'
+          # Your deployment command goes here
+          echo "Deploying to EC2"
           EOF
         shell: bash
