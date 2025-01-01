@@ -29,8 +29,8 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag my-web-app:latest ${{ steps.login-ecr.outputs.registry }}/my-web-app:latest
-
+          docker tag my-web-app:latest my-web-app:latest
+          
       - name: Push Docker image
         run: |
           docker push ${{ steps.login-ecr.outputs.registry }}/my-web-app:latest
