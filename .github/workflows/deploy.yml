@@ -1,1 +1,17 @@
+name: Deploy to AWS
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    runs-on: self-hosted  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v1
