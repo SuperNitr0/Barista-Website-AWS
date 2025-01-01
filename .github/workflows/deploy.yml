@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - main
-
+      
 jobs:
   deploy:
     name: Deploy to AWS
-    runs-on: [self-hosted, ubuntu-latest]
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
