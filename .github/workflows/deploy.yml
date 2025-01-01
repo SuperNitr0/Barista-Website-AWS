@@ -33,4 +33,5 @@ jobs:
           
       - name: Push Docker image
         run: |
-          docker push ${{ steps.login-ecr.outputs.registry }}/my-web-app:latest
+          docker push my-web-app:latest
+t
