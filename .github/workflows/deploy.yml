@@ -21,16 +21,17 @@ jobs:
           aws-region: us-east-1
         
       - name: Log in to Amazon ECR
-        uses: aws-actions/amazon-ecr-login@v1
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-      - name: Build Docker image
+      - name: Build the Docker image
         run: |
-          docker build -t my-web-app:latest .
+          docker build -t my-web-app:latest .  # Build the Docker image with the tag 'latest'
 
-      - name: Tag Docker image
+      - name: Tag the Docker image for ECR
         run: |
-          docker tag my-web-app:latest my-web-app:latest
-          
-      - name: Push Docker image
+          docker tag my-web-app:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-web-app:latest
+
+      - name: Push the Docker image to ECR
         run: |
-          docker push my-web-app:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-web-app:latest  # Push the image to ECR
