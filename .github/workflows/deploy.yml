@@ -25,7 +25,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          docker build -t my-web-app:latest .  # Build the Docker image with the tag 'latest'
+          docker build -t my-web-app:latest .  
 
       - name: Tag the Docker image for ECR
         run: |
@@ -33,4 +33,4 @@ jobs:
 
       - name: Push the Docker image to ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-web-app:latest  # Push the image to ECR
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-web-app:latest
